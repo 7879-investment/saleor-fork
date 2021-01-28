@@ -833,13 +833,6 @@ class ProductType(CountableDjangoObjectType):
         return TaxType(tax_code=tax_data.code, description=tax_data.description)
 
     @staticmethod
-    def resolve_tax_rate(root: models.ProductType, _info, **_kwargs):
-        # FIXME this resolver should be dropped after we drop tax_rate from API
-        if not hasattr(root, "meta"):
-            return None
-        return root.get_value_from_metadata("vatlayer.code")
-
-    @staticmethod
     def resolve_product_attributes(root: models.ProductType, info):
         return ProductAttributesByProductTypeIdLoader(info.context).load(root.pk)
 
